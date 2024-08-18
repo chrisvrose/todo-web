@@ -1,8 +1,8 @@
 use actix_web::{
-    web::{Data, Form, Json},
+    web::{Data, Json},
     Responder,
 };
-use log::{debug, info, warn};
+use log::{debug,warn};
 
 use crate::web::todo::{
     entity::Todo,
@@ -25,6 +25,6 @@ pub async fn create(
 ) -> impl Responder {
     let todo_entity:Todo = input.into_inner().into();
     debug!("content converted to - {:?}",&todo_entity);
-    let inserted_todo = repository.create(todo_entity).await.inspect_err(|err|warn!("Failed insert {}",err)).unwrap();
+    let inserted_todo = repository.create(todo_entity).await.inspect_err(|err| warn!("Failed insert {}",err)).unwrap();
     Json(inserted_todo)
 }
