@@ -4,7 +4,6 @@ use super::entity::{Todo, TodoState};
 
 #[derive(Serialize, Deserialize, Clone, Default, PartialEq, Eq, Debug)]
 pub struct TodoDto {
-    pub owner: Option<i32>,
     pub title: String,
     pub state: TodoState,
     pub description: Option<String>,
@@ -12,11 +11,12 @@ pub struct TodoDto {
 }
 
 impl Into<Todo> for TodoDto {
+    /// create a todo from dto. Note that remaining columns are set to none/default as applicable
     fn into(self) -> Todo {
-        let TodoDto {owner, title, state, description, project_grouping} = self;
+        let TodoDto {title, state, description, project_grouping} = self;
         Todo {
             id: None,
-            owner,
+            owner: None,
             title,
             state,
             description,

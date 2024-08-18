@@ -2,9 +2,10 @@ use std::sync::Arc;
 
 use actix_web::{web::Data, App, HttpServer};
 use simple_logger::SimpleLogger;
-use sqlx::{PgPool, Postgres};
+use sqlx::PgPool;
 use web::todo::repository::PostgresTodoRepository;
 
+mod configurer;
 mod util;
 mod web;
 
@@ -26,17 +27,13 @@ async fn main() -> std::io::Result<()> {
         .expect("Failed connecting to db url");
     let pool_arc = Arc::new(pool);
 
-
     HttpServer::new(move || {
         let todo_repo = PostgresTodoRepository::new(pool_arc.clone());
         App::new()
-            .service(web::todo::api::get_list)
-            .service(web::todo::api::create)
-            .service(actix_files::Files::new("/","static").index_file("index.html"))
             .app_data(Data::new(todo_repo))
-
+            .configure(configurer::web_configurer)
     })
-        .bind(("127.0.0.1", 8080))?
-        .run()
-        .await
+    .bind(("127.0.0.1", 8080))?
+    .run()
+    .await
 }
