@@ -24,13 +24,15 @@ async fn main() -> std::io::Result<()> {
     let pool = PgPool::connect(&std::env::var("DATABASE_URL").unwrap())
         .await
         .expect("Failed connecting to db url");
-
     let pool_arc = Arc::new(pool);
+
 
     HttpServer::new(move || {
         let todo_repo = PostgresTodoRepository::new(pool_arc.clone());
         App::new()
             .service(web::todo::api::get_list)
+            .service(web::todo::api::create)
+            .service(actix_files::Files::new("/","static").index_file("index.html"))
             .app_data(Data::new(todo_repo))
 
     })

@@ -1,0 +1,68 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO todo (owner,title,state,description,project_grouping) VALUES ( $1,$2,$3,$4, $5) returning *",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "id",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 1,
+        "name": "owner",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 2,
+        "name": "title",
+        "type_info": "Varchar"
+      },
+      {
+        "ordinal": 3,
+        "name": "state",
+        "type_info": "Bpchar"
+      },
+      {
+        "ordinal": 4,
+        "name": "description",
+        "type_info": "Text"
+      },
+      {
+        "ordinal": 5,
+        "name": "project_grouping",
+        "type_info": "Int4"
+      },
+      {
+        "ordinal": 6,
+        "name": "date_added",
+        "type_info": "Timestamptz"
+      },
+      {
+        "ordinal": 7,
+        "name": "date_updated",
+        "type_info": "Timestamptz"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Int4",
+        "Varchar",
+        "Bpchar",
+        "Text",
+        "Int4"
+      ]
+    },
+    "nullable": [
+      false,
+      true,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false
+    ]
+  },
+  "hash": "9eab9cd6d760715d3ec594555d9e05922f0dcf7cfc49aeb8f17989fd5ff5139b"
+}
